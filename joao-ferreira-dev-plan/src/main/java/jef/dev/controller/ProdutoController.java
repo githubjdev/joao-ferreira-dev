@@ -1,6 +1,7 @@
 package jef.dev.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,6 @@ public class ProdutoController {
 		return ResponseEntity.ok(service.listarTodos());
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Produto> buscarPorId(@PathVariable Long id) {
-		return service.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-	}
-
 	@PostMapping
 	public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
 		Produto salvo = service.salvar(produto);
@@ -44,10 +40,59 @@ public class ProdutoController {
 		return ResponseEntity.ok(service.atualizar(produto));
 	}
 
+	/*Pendente de ser passado para o aluno*/
+	@GetMapping("/{id}")
+	public ResponseEntity<Produto> buscarPorId(@PathVariable Long id) {
+		
+	    if (id <= 0) {
+	        return ResponseEntity.badRequest().build();
+	    }
+		
+	    return service.buscarPorId(id)
+	            .map(ResponseEntity::ok)
+	            .orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
+	
+	/*Pendente de ser passado para o aluno*/
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> excluir(@PathVariable Long id) {
-		service.excluir(id);
-		return ResponseEntity.noContent().build();
+
+	    if (!service.existePorId(id)) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    service.excluir(id);
+	    return ResponseEntity.noContent().build();
 	}
+
+	
+	/*Pendente de ser passado para o aluno*/
+	@GetMapping("buscarPorNome/{nome}")
+	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable String nome) {
+	    List<Produto> produtos = service.buscarPorNome(nome).get();
+
+	    if (produtos.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    return ResponseEntity.ok(produtos);
+	}
+	
+	
+	/*Pendente de ser passado para o aluno*/
+	@GetMapping("/buscarPorNome/{nome}/{pagina}")
+	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable String nome, int pagina) {
+
+		Optional<List<Produto>> produtos = service.buscarPorNome(nome, pagina);
+
+		if (produtos.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(produtos.get());
+	}
+
+
 
 }
