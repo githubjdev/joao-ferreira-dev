@@ -16,7 +16,7 @@ import lombok.Data;
 public class Produto {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
 	private Long id;
 
 	@Column(nullable = false)
