@@ -14,42 +14,42 @@ import jef.dev.repository.ProdutoRepository;
 public class ProdutoService {
 
 	@Autowired
-	private ProdutoRepository repository;
+	private ProdutoRepository produtoRepository;
 
 	public List<Produto> listarTodos() {
-		return repository.findAll();
+		return produtoRepository.findAll();
 	}
 
 	public Optional<Produto> buscarPorId(Long id) {
-		return repository.findById(id);
+		return produtoRepository.findById(id);
 	}
 
 	@Transactional
 	public Produto salvar(Produto produto) {
-		return repository.save(produto);
+		return produtoRepository.save(produto);
 	}
 
 	@Transactional
 	public Produto atualizar(Produto p) {
-		Produto existente = repository.findById(p.getId())
+		Produto existente = produtoRepository.findById(p.getId())
 				.orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 		existente.setNome(p.getNome());
-		return repository.save(existente);
+		return produtoRepository.save(existente);
 	}
 
 	@Transactional
 	public void excluir(Long id) {
-		repository.deleteById(id);
+		produtoRepository.deleteById(id);
 	}
 
 	@Transactional
 	public List<Produto> buscarPorNome(String nome) {
-		return repository.buscarPorNome(nome.toLowerCase());
+		return produtoRepository.buscarPorNome(nome.toLowerCase());
 	}
 	
 	@Transactional
 	public boolean existePorId(Long id) {
-	    return repository.existsById(id);
+	    return produtoRepository.existsById(id);
 	}
 
 }
