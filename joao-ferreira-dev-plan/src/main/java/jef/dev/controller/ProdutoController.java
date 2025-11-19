@@ -1,7 +1,6 @@
 package jef.dev.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +23,9 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService service;
 
+    /**
+     * http://localhost:8080/joao-ferreira-dev/api/produtos
+     */
 	@GetMapping
 	public ResponseEntity<List<Produto>> listarTodos() {
 		return ResponseEntity.ok(service.listarTodos());
@@ -42,7 +44,7 @@ public class ProdutoController {
 
 	/*Pendente de ser passado para o aluno*/
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto> buscarPorId(@PathVariable Long id) {
+	public ResponseEntity<Produto> buscarPorId(@PathVariable(name = "id") Long id) {
 		
 	    if (id <= 0) {
 	        return ResponseEntity.badRequest().build();
@@ -54,9 +56,9 @@ public class ProdutoController {
 	}
 
 	
-	/*Pendente de ser passado para o aluno*/
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+	public ResponseEntity<Void> excluir(@PathVariable(name = "id") Long id) {
 
 	    if (!service.existePorId(id)) {
 	        return ResponseEntity.notFound().build();
@@ -69,8 +71,8 @@ public class ProdutoController {
 	
 	/*Pendente de ser passado para o aluno*/
 	@GetMapping("buscarPorNome/{nome}")
-	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable String nome) {
-	    List<Produto> produtos = service.buscarPorNome(nome).get();
+	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable(name = "nome") String nome) {
+	    List<Produto> produtos = service.buscarPorNome(nome);
 
 	    if (produtos.isEmpty()) {
 	        return ResponseEntity.notFound().build();
@@ -80,19 +82,5 @@ public class ProdutoController {
 	}
 	
 	
-	/*Pendente de ser passado para o aluno*/
-	@GetMapping("/buscarPorNome/{nome}/{pagina}")
-	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable String nome, int pagina) {
-
-		Optional<List<Produto>> produtos = service.buscarPorNome(nome, pagina);
-
-		if (produtos.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-
-		return ResponseEntity.ok(produtos.get());
-	}
-
-
 
 }

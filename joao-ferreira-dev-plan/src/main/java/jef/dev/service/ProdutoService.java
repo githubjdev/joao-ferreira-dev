@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,14 +43,8 @@ public class ProdutoService {
 	}
 
 	@Transactional
-	public Optional<List<Produto>> buscarPorNome(String nome) {
-		return repository.buscarPorNome(nome);
-	}
-	
-	@Transactional
-	public Optional<List<Produto>> buscarPorNome(String nome, int pagina) {
-		Pageable page = PageRequest.of(pagina, 5);
-		return repository.buscarPorNome(nome, page);
+	public List<Produto> buscarPorNome(String nome) {
+		return repository.buscarPorNome(nome.toLowerCase());
 	}
 	
 	@Transactional
