@@ -22,5 +22,7 @@ public class Produto {
 	
 	@Column(nullable = false)
 	private String nome;
+	
+	/*Adicione a quantidade*/
 
 }
