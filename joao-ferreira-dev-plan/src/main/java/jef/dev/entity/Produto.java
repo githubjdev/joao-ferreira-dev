@@ -23,5 +23,9 @@ public class Produto {
 	private String nome;
 	
 	
+	@Column(nullable = false)
+	private double quantidade;
+	
+	
 
 }

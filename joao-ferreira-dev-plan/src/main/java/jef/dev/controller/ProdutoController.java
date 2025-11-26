@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import jef.dev.entity.Produto;
 import jef.dev.service.ProdutoService;
 
+/**
+ * http://localhost:8080/joao-ferreira-dev/api/produtos
+ */
+
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
@@ -23,64 +27,72 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService produtoService;
 
-    /**
-     * http://localhost:8080/joao-ferreira-dev/api/produtos
-     */
+	/* Passado para o aluno */
 	@GetMapping
 	public ResponseEntity<List<Produto>> listarTodos() {
 		return ResponseEntity.ok(produtoService.listarTodos());
 	}
 
+	/* Passado para o aluno */
 	@PostMapping
 	public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
 		Produto salvo = produtoService.salvar(produto);
 		return ResponseEntity.ok(salvo);
 	}
 
+	/* Passado para o aluno */
 	@PutMapping
 	public ResponseEntity<Produto> atualizar(@RequestBody Produto produto) {
 		return ResponseEntity.ok(produtoService.atualizar(produto));
 	}
 
-	/*Pendente de ser passado para o aluno*/
+	/* Passado para o aluno */
 	@GetMapping("/{id}")
 	public ResponseEntity<Produto> buscarPorId(@PathVariable(name = "id") Long id) {
-		
-	    if (id <= 0) {
-	        return ResponseEntity.badRequest().build();
-	    }
-		
-	    return produtoService.buscarPorId(id)
-	            .map(ResponseEntity::ok)
-	            .orElseGet(() -> ResponseEntity.notFound().build());
+
+		if (id <= 0) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		return produtoService.buscarPorId(id).map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
-	
-
+	/* Passado para o aluno */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> excluir(@PathVariable(name = "id") Long id) {
 
-	    if (!produtoService.existePorId(id)) {
-	        return ResponseEntity.notFound().build();
-	    }
+		if (!produtoService.existePorId(id)) {
+			return ResponseEntity.notFound().build();
+		}
 
-	    produtoService.excluir(id);
-	    return ResponseEntity.noContent().build();
+		produtoService.excluir(id);
+		return ResponseEntity.noContent().build();
 	}
 
-	
-	/*Pendente de ser passado para o aluno*/
+	/* Pendente de ser passado para o aluno */
 	@GetMapping("buscarPorNome/{nome}")
 	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable(name = "nome") String nome) {
-	    List<Produto> produtos = produtoService.buscarPorNome(nome);
+		List<Produto> produtos = produtoService.buscarPorNome(nome);
 
-	    if (produtos.isEmpty()) {
-	        return ResponseEntity.notFound().build();
-	    }
+		if (produtos.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
 
-	    return ResponseEntity.ok(produtos);
+		return ResponseEntity.ok(produtos);
 	}
-	
-	
+
+	/* Falta passar para o aluno e corrogir como tarefa da aula anterior */
+	@GetMapping("buscarPorNomeQtd/{nome}/{qtd}")
+	public ResponseEntity<List<Produto>> buscarPorNomeQtd(@PathVariable(name = "nome") String nome,
+			@PathVariable(name = "qtd") double qtd) {
+		List<Produto> produtos = produtoService.buscarPorNomeQtd(nome.toLowerCase(), qtd);
+
+		if (produtos.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(produtos);
+	}
 
 }

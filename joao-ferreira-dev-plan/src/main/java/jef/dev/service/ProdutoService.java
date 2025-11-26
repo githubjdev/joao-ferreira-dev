@@ -46,10 +46,15 @@ public class ProdutoService {
 	public List<Produto> buscarPorNome(String nome) {
 		return produtoRepository.buscarPorNome(nome.toLowerCase());
 	}
-	
+
 	@Transactional
 	public boolean existePorId(Long id) {
-	    return produtoRepository.existsById(id);
+		return produtoRepository.existsById(id);
+	}
+
+	@Transactional
+	public List<Produto> buscarPorNomeQtd(String nome, double qtd) {
+		return produtoRepository.buscarPorNomeQtd(nome.toLowerCase(), qtd);
 	}
 
 }
