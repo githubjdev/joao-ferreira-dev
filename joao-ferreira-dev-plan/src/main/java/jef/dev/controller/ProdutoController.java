@@ -3,6 +3,7 @@ package jef.dev.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,7 +71,7 @@ public class ProdutoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	/* Pendente de ser passado para o aluno */
+	/* Passado para o aluno */
 	@GetMapping("buscarPorNome/{nome}")
 	public ResponseEntity<List<Produto>> buscarPorNome(@PathVariable(name = "nome") String nome) {
 		List<Produto> produtos = produtoService.buscarPorNome(nome);
@@ -94,5 +95,40 @@ public class ProdutoController {
 
 		return ResponseEntity.ok(produtos);
 	}
+	
+	
+	/* Falta passar para o aluno */
+	@GetMapping("buscarPorNomePage/{nome}/{page}")
+	public ResponseEntity<List<Produto>> buscarPorNomePage(@PathVariable(name = "nome") String nome,
+														@PathVariable(name = "page") int page) {
+		
+		
+		List<Produto> produtos = produtoService.buscarPorNomePage(nome.toLowerCase(),
+				                                                 PageRequest.of(page, 5));
+
+		if (produtos.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(produtos);
+	}
+	
+	
+	/* Falta passar para o aluno */
+	@GetMapping("buscarPorPage/{page}/{qtd}")
+	public ResponseEntity<List<Produto>> buscarPorPage(@PathVariable(name = "page") int page,
+			                                          @PathVariable(name = "qtd") int qtd) {
+		
+		
+		List<Produto> produtos = produtoService.buscarPorPage(PageRequest.of(page, qtd));
+
+		if (produtos.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(produtos);
+	}
+	
+	
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,19 +43,29 @@ public class ProdutoService {
 		produtoRepository.deleteById(id);
 	}
 
-	@Transactional
 	public List<Produto> buscarPorNome(String nome) {
 		return produtoRepository.buscarPorNome(nome.toLowerCase());
 	}
 
-	@Transactional
 	public boolean existePorId(Long id) {
 		return produtoRepository.existsById(id);
 	}
 
-	@Transactional
 	public List<Produto> buscarPorNomeQtd(String nome, double qtd) {
 		return produtoRepository.buscarPorNomeQtd(nome.toLowerCase(), qtd);
 	}
+	
+	
+	
+	public List<Produto> buscarPorNomePage(String nome, Pageable pageable) {
+		return produtoRepository.buscarPorNomePage(nome, pageable);
+	}
+	
+	
+	
+	public List<Produto> buscarPorPage(Pageable pageable) {
+		return produtoRepository.findAll(pageable).getContent();
+	}
+
 
 }

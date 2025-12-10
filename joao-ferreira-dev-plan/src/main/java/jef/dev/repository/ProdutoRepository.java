@@ -2,6 +2,7 @@ package jef.dev.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +21,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	@Transactional(readOnly = true)
 	@Query("SELECT p FROM Produto p WHERE LOWER(p.nome) LIKE %:nome% and p.quantidade >= :qtd")
 	List<Produto> buscarPorNomeQtd(@Param("nome") String nome,  @Param("qtd") double qtd);
+	
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT p FROM Produto p WHERE LOWER(p.nome) LIKE %:nome%")
+	List<Produto> buscarPorNomePage(@Param("nome") String nome, Pageable pageable);
 
 }

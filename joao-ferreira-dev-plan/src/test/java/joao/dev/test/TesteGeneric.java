@@ -36,4 +36,12 @@ public class TesteGeneric {
 		return hostname + ":" + port + hostname + "/" + endPoint;
 	}
 
+	public MockMvc getMockMvc() {
+		return mockMvc;
+	}
+
+	public WebApplicationContext getWeb() {
+		return web;
+	}
+
 }

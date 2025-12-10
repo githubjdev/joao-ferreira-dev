@@ -27,5 +27,20 @@ public class Produto {
 	private double quantidade;
 	
 	
+	public Produto() {
+	}
+
+	public Produto(String nome) {
+		super();
+		this.nome = nome;
+	}
+
+	public Produto(Long id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+	
+	
 
 }
